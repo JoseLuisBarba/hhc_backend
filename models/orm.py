@@ -68,11 +68,8 @@ class UserRol(Base):
 class Admin(Base):
     __tablename__ = "admin" 
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-
-    user_id = Column(String(20), ForeignKey('user.dni'), nullable=False)
-
-
+    dni = Column(String(20), ForeignKey('user.dni'), primary_key=True, nullable=False)
+    
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime, server_default= func.now())
     updatedAt = Column(DateTime)
@@ -96,12 +93,10 @@ class Schedule(Base):
 class Caregiver(Base):
     __tablename__ = "caregiver" 
 
-    id = Column(String(20), primary_key=True)
+    dni = Column(String(20), ForeignKey('user.dni'), primary_key=True, nullable=False)
     skill = Column(Double(), nullable=False)
 
     schedule_id = Column(Integer, ForeignKey('schedule.id'), nullable=False)
-    user_id = Column(String(20), ForeignKey('user.dni'), nullable=False)
-
 
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime, server_default= func.now())
@@ -135,8 +130,7 @@ class Patient(Base):
     
     __tablename__ = "patient"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String(20), ForeignKey('user.dni'), nullable=False)
+    dni = Column(String(20), ForeignKey('user.dni'), primary_key=True, nullable=False)
 
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime, server_default= func.now())
@@ -176,7 +170,7 @@ class Cite(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     travel_id = Column(Integer, ForeignKey('travel.id'), nullable=False)
-    patient_id = Column(Integer, ForeignKey('patient.id'), nullable=False)
+    patient_id = Column(Integer, ForeignKey('patient.dni'), nullable=False)
 
     skill = Column(Double(), nullable=False)
 
@@ -210,7 +204,7 @@ class CaregiverTravel(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     travel_id = Column(Integer, ForeignKey('travel.id'), nullable=False)
-    caregiver_id = Column(String(20), ForeignKey('caregiver.id'), nullable=False )
+    caregiver_id = Column(String(20), ForeignKey('caregiver.dni'), nullable=False )
 
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime, server_default= func.now())
