@@ -42,5 +42,9 @@ class UserCurrent(BaseModel):
     is_active: bool
     createdAt: datetime
 
+class UserOutResponse(BaseModel):
+    status: bool
+    userOut: Optional[UserOut]
+
 
 

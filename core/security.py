@@ -4,7 +4,7 @@ from typing import Union, Any
 from core.config import settings
 from jose import jwt
 
-passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+passwordContext = CryptContext(schemes=["argon2"], deprecated="auto")
 
 def createAccessToken(subject: Union[str, Any], expiresDelta: int = None) -> str:
     if expiresDelta is not None:

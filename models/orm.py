@@ -1,7 +1,7 @@
-from sqlalchemy import Column, ForeignKey, Integer, Boolean, String, DateTime, Date, Double, Time, Text
+from sqlalchemy import Column, ForeignKey, Integer, Boolean, Date, String, DateTime,  Double, Time, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-
+from datetime import datetime
 from db.mysql import  Base
 
 
@@ -40,10 +40,10 @@ class User(Base):
     deletedAt = Column(DateTime)
 
     #relationships
-    admin = relationship('Admin')
-    caregiver = relationship('Caregiver')
-    patient = relationship('Patient')
 
+    admin = relationship('Admin', uselist=False, back_populates='user')
+    caregiver = relationship('Caregiver', uselist=False, back_populates='user')
+    patient = relationship('Patient', uselist=False, back_populates='user')
 
 
 #@relationship
@@ -79,7 +79,7 @@ class Admin(Base):
     deletedAt = Column(DateTime)
 
     #relationship 
-    user = relationship('User')
+    user = relationship('User', uselist=False, back_populates='admin')
 
 class Schedule(Base):
     __tablename__ = "schedule"
@@ -110,7 +110,7 @@ class Caregiver(Base):
 
     #relationship 
     schedule = relationship('Schedule')
-    user = relationship('User')
+    user = relationship('User', uselist=False, back_populates='caregiver')
 
 
 class Vehicle(Base):
@@ -144,7 +144,7 @@ class Patient(Base):
     deletedAt = Column(DateTime)
 
     #relationship 
-    user = relationship('User')
+    user = relationship('User', uselist=False, back_populates='patient')
 
 
 class Travel(Base):

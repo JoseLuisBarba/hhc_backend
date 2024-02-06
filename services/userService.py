@@ -1,4 +1,4 @@
-from dtos.user import UserOut, UserAuth, UserUpdate, UserCreate
+from dtos.user import UserOut, UserAuth, UserUpdate, UserCreate, UserOutResponse
 from core.security import getPassword, verifyPassword
 from models.orm import User
 from repository.users import getUserById
@@ -17,7 +17,7 @@ class UserService:
     def __init__(self, dbSession: Session):
         self.dbSession = dbSession
 
-    async def createUser(self, user: UserCreate) -> Optional[UserOut]:
+    async def createUser(self, user: UserCreate) -> Optional[UserOutResponse]:
         try:
             hashedPassword = getPassword(user.password)
 
@@ -28,7 +28,7 @@ class UserService:
                 name=user.name,
                 lastname=user.lastname,
                 phone=user.phone,
-                birthdate=user.birthdate,
+                birthdate=  datetime.strptime(user.birthdate, '%Y-%m-%d').date(),
                 is_active=True,
                 createdAt=func.now(),
                 updatedAt=None,
@@ -47,13 +47,13 @@ class UserService:
                 is_active=True
             )
 
-            #logger.info(f"User {userIn.dni} created successfully")
-            
-            return userOut
-
+            return UserOutResponse(status=True, userOut=userOut)
+        
+        
+    
         except SQLAlchemyError as e:
-            #logger.error(f"Error creating user: {e}")
-            return None
+            print(e)
+            return  UserOutResponse(status=False, userOut=None)
 
 
     async def authenticate(self, identifier: str, hashedPassword: str) -> Optional[UserOut]:
