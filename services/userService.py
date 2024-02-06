@@ -95,7 +95,7 @@ class UserService:
                 lastname= user.lastname,
                 is_active= user.is_active,
                 phone= user.phone,
-                birthdate = user.birthdate
+                birthdate = user.birthdate.__str__()
             )
             
             return UserDetailsResponse(status=True, userDetails=userDetails)

@@ -33,7 +33,6 @@ class User(Base):
     lastname = Column(String(20), nullable=False)
     phone = Column(String(20), nullable=False)
     birthdate = Column(Date, nullable=False)
-
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime, server_default= func.now())
     updatedAt = Column(DateTime)
