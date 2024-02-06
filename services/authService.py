@@ -7,7 +7,7 @@ from jose import jwt, JWTError
 from pydantic import ValidationError
 from services.userService import UserService
 from dtos.auth import TokenPayload
-from dtos.user import UserOut
+from dtos.user import UserOut, UserOutResponse, UserDetailsResponse
 from sqlalchemy.orm import Session  # Add the import for the Session type
 from db.mysql import async_session
 from typing import Optional
@@ -17,7 +17,7 @@ reuseableOauth = OAuth2PasswordBearer(
     scheme_name="JWT"
 )
 
-async def getCurrentUser( token: str = Depends(reuseableOauth), ) -> Optional[UserOut]:
+async def getCurrentUser( token: str = Depends(reuseableOauth), ) -> Optional[UserDetailsResponse]:
     async with async_session() as session:
         async with session.begin():
             try:
