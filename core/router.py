@@ -1,12 +1,13 @@
 from fastapi import APIRouter
 from routers import users
 from routers import auth
-
+from routers import patient
 
 router = APIRouter()
 
 router.include_router(users.userRouter, prefix='/users', tags=["users"])
 router.include_router(auth.authRouter, prefix='/auth', tags=["auth"])
+router.include_router(patient.patientRouter, prefix='/patient', tags=["patient"])
 
 
 # router.include_router(users.userRouter, prefix='/users', tags=["users"])
