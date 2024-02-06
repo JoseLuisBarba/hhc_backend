@@ -40,9 +40,9 @@ class User(Base):
     deletedAt = Column(DateTime)
 
     #relationships
-    admin = relationship('Admin')
-    caregiver = relationship('Caregiver')
-    patient = relationship('Patient')
+    admin = relationship('Admin', back_populates='user')
+    caregiver = relationship('Caregiver', back_populates='user')
+    patient = relationship('Patient', back_populates='user')
 
 
 
@@ -79,7 +79,7 @@ class Admin(Base):
     deletedAt = Column(DateTime)
 
     #relationship 
-    user = relationship('User')
+    user = relationship('User', back_populates='admin')
 
 
 class Schedule(Base):
@@ -111,7 +111,7 @@ class Caregiver(Base):
 
     #relationship 
     schedule = relationship('Schedule')
-    user = relationship('User')
+    user = relationship('User', back_populates='admin')
 
 
 class Vehicle(Base):
@@ -145,7 +145,7 @@ class Patient(Base):
     deletedAt = Column(DateTime)
 
     #relationship 
-    user = relationship('User')
+    user = relationship('User', back_populates='admin')
 
 
 class Travel(Base):

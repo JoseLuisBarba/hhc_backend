@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from fastapi import Depends
-from dtos.user import UserAuth, UserOut, UserUpdate
+from dtos.user import UserAuth, UserOut, UserUpdate, UserCreate
 from services.userService import UserService
 from models.orm import User
 from services.authService import getCurrentUser
@@ -11,7 +11,7 @@ from dtos.auth import LoginDTO
 userRouter = APIRouter()
 
 @userRouter.post('/create', summary="Create new user", response_model=UserOut)
-async def createUser(data: UserAuth):
+async def createUser(data: UserCreate):
     async with async_session() as session:
         async with session.begin():
             try:

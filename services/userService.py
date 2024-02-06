@@ -46,9 +46,8 @@ class UserService:
                 lastname=user.lastname, 
                 is_active=True
             )
-
             #logger.info(f"User {userIn.dni} created successfully")
-            
+
             return userOut
 
         except SQLAlchemyError as e:
