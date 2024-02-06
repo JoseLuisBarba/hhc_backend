@@ -1,12 +1,7 @@
 from fastapi import APIRouter
 from routers import users
 from routers import auth
-from routers import incidenceType
-from routers import upload
-from routers import incidence
-from routers import citizen
-from routers import serenazgo
-from routers import status
+
 
 router = APIRouter()
 

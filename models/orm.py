@@ -81,7 +81,6 @@ class Admin(Base):
     #relationship 
     user = relationship('User')
 
-
 class Schedule(Base):
     __tablename__ = "schedule"
     id = Column(Integer, primary_key=True, autoincrement=True)

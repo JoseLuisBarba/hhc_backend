@@ -8,8 +8,8 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=8, max_length=24, description="User's password")
     name: str = Field(..., description="User's first name")
     lastname: str = Field(..., description="User's last name")
-    phone: str = Field(..., description="User's phone number")
     birthdate: str = Field(..., description="User's birthdate (YYYY-MM-DD)")  
+    phone: str = Field(..., description="User's phone number")
     rol_id: int = Field(..., description="ID of the user's role") 
     
 
