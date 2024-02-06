@@ -69,7 +69,7 @@ class Admin(Base):
     __tablename__ = "admin" 
 
     dni = Column(String(20), ForeignKey('user.dni'), primary_key=True, nullable=False)
-    
+
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime, server_default= func.now())
     updatedAt = Column(DateTime)
@@ -174,7 +174,7 @@ class Cite(Base):
 
     skill = Column(Double(), nullable=False)
 
-    cite_date = Column(datetime.date(), nullable=False)
+    cite_date = Column(Date, nullable=False)
 
     lat = Column(Double(), nullable=False)
     lng = Column(Double(), nullable=False)
