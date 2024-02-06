@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Body
 from fastapi.security import OAuth2PasswordRequestForm
 
-
-
 from services.userService import UserService 
 from services.authService import getCurrentUser
 from core.security import createAccessToken, createRefreshToken

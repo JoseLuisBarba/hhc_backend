@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from fastapi import Depends
 from dtos.user import UserAuth, UserOut, UserUpdate
 from services.userService import UserService
-from models.users import User
+from models.orm import User
 from services.authService import getCurrentUser
 from db.mysql import async_session
 from sqlalchemy.exc import IntegrityError

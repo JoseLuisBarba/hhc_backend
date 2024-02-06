@@ -38,9 +38,9 @@ class UserCurrent(BaseModel):
     name: str 
     lastname: str 
     phone: str 
-    birthdate: str = Field(..., description="User's birthdate (YYYY-MM-DD)")  
-    is_active = bool
-    createdAt = datetime
+    birthdate: str  
+    is_active: bool
+    createdAt: datetime
 
 
 
