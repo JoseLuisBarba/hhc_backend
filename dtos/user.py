@@ -27,6 +27,15 @@ class UserOut(BaseModel):
     is_active: Optional[bool] = True
 
 
+class UserDetails(BaseModel):
+    dni: str
+    email: EmailStr
+    name: str
+    lastname: str
+    is_active: Optional[bool] = True
+    phone: str
+    birthdate: str
+
 class UserUpdate(BaseModel):
     email: Optional[str] = None
     is_active: Optional[bool] = None
@@ -45,6 +54,11 @@ class UserCurrent(BaseModel):
 class UserOutResponse(BaseModel):
     status: bool
     userOut: Optional[UserOut]
+
+
+class UserDetailsResponse(BaseModel):
+    status: bool
+    userDetails: Optional[UserDetails]
 
 
 

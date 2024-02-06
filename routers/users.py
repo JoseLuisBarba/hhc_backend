@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from fastapi import Depends
-from dtos.user import UserAuth, UserOut, UserUpdate, UserCreate, UserOutResponse
+from dtos.user import UserCreate, UserOutResponse, UserDetailsResponse
 from services.userService import UserService
 from models.orm import User
 from services.authService import getCurrentUser
@@ -21,8 +21,10 @@ async def createUser(data: UserCreate):
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="User with this email or dni already exist"
                 )
+            
+
     
-@userRouter.get('/me', summary='Get details of currently logged in user', response_model=UserOut)
+@userRouter.get('/me', summary='Get details of currently logged in user', response_model=UserDetailsResponse)
 async def getMe(user: User = Depends(getCurrentUser)):
     async with async_session() as session:
         async with session.begin():

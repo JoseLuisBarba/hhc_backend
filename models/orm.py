@@ -174,7 +174,7 @@ class Cite(Base):
 
     skill = Column(Double(), nullable=False)
 
-    cite_date = Column(Date, nullable=False)
+    cite_date = Column(datetime.date(), nullable=False)
 
     lat = Column(Double(), nullable=False)
     lng = Column(Double(), nullable=False)

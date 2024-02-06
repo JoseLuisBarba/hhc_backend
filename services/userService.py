@@ -1,4 +1,4 @@
-from dtos.user import UserOut, UserAuth, UserUpdate, UserCreate, UserOutResponse
+from dtos.user import UserOut, UserDetails,  UserCreate, UserOutResponse, UserDetailsResponse
 from core.security import getPassword, verifyPassword
 from models.orm import User
 from repository.users import getUserById
@@ -56,31 +56,50 @@ class UserService:
             return  UserOutResponse(status=False, userOut=None)
 
 
-    async def authenticate(self, identifier: str, hashedPassword: str) -> Optional[UserOut]:
-        user = await getUserById(self.dbSession, identifier)
-
-        if not user or not verifyPassword(hashedPassword, user.hashed_password):
-            return None
+    async def authenticate(self, identifier: str, hashedPassword: str) -> Optional[UserOutResponse]:
+        try:
         
-        return UserOut (
-            dni= user.dni, 
-            email= user.email, 
-            name= user.name, 
-            lastname=user.lastname, 
-            is_active=user.is_active
-        )
+            user = await getUserById(self.dbSession, identifier)
 
-    async def getUserByIdentifier(self, identifier: str) -> Optional[UserOut]:
-
-        user = await getUserById(self.dbSession, identifier)
-
-        if not user:
-            return None
+            if not user or not verifyPassword(hashedPassword, user.password):
+                return None
+            
+            userOut = UserOut (
+                dni= user.dni, 
+                email= user.email, 
+                name= user.name, 
+                lastname=user.lastname, 
+                is_active=user.is_active
+            )
+            return UserOutResponse(status=True, userOut=userOut)
         
-        return UserOut (
-            dni= user.dni, 
-            email= user.email, 
-            name= user.name, 
-            lastname=user.lastname, 
-            is_active=user.is_active
-        )
+        except SQLAlchemyError as e:
+            print(e)
+            return  UserOutResponse(status=False, userOut=None)
+        
+
+
+    async def getUserByIdentifier(self, identifier: str) -> Optional[UserDetailsResponse]:
+        try:
+            user = await getUserById(self.dbSession, identifier)
+
+            if not user:
+                return UserDetailsResponse(status=False, userDetails=None)
+            if not user.is_active:
+                return UserDetailsResponse(status=False, userDetails=None)
+            
+            userDetails = UserDetails(
+                dni= user.dni,
+                email= user.email,
+                name= user.name,
+                lastname= user.lastname,
+                is_active= user.is_active,
+                phone= user.phone,
+                birthdate = user.birthdate
+            )
+            
+            return UserDetailsResponse(status=True, userDetails=userDetails)
+        
+        except SQLAlchemyError as e:
+            print(e)
+            return  UserDetailsResponse(status=False, userDetails=None)
