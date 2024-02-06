@@ -6,8 +6,8 @@ from sqlalchemy import update
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session
 from datetime import datetime
-from dtos.vehicle import VehicleCreate, VehicleOutResponse, VehicleOut, VehiclesResponse
-from repository.vehicle import getAllActiveVehicles
+from dtos.vehicle import VehicleCreate, VehicleOutResponse, VehicleOut, VehiclesResponse, VehicleUpdate
+from repository.vehicle import getAllActiveVehicles, getVehicleById, updateVehicleById
 from models.orm import Vehicle
 from sqlalchemy.sql import func
 from typing import List
@@ -85,6 +85,55 @@ class VehicleService:
         except SQLAlchemyError as e:
             print(e)
             return  VehiclesResponse(status=False, vehiclesOut=[])
+        
 
 
+    async def getVehicleById(self, id) -> Optional[VehicleOutResponse]:
+        try:
+
+            vehicle = await getVehicleById(self.dbSession, id)
+
+            if not vehicle:
+                return  VehicleOutResponse(status=False, vehicleOut=None)
+            
+            vehicleOut = VehicleOut(
+                reg_num= vehicle.reg_num,
+                capacity= vehicle.capacity,
+                average_speed= vehicle.average_speed, 
+                freight_km= vehicle.freight_km, 
+                lat= vehicle.lat, 
+                lng= vehicle.lng,
+                createdAt= vehicle.createdAt,
+                is_active=True
+            )
+            return VehicleOutResponse(status=True, vehicleOut=vehicleOut)
+        
+        except SQLAlchemyError as e:
+            print(e)
+            return  VehicleOutResponse(status=False, vehicleOut=None)
+        
+    async def updateVehicleById(self, newData: VehicleUpdate) -> Optional[VehicleOutResponse]:
+        try:
+
+            vehicle = await updateVehicleById(self.dbSession, newData)
+
+            if not vehicle:
+                return  VehicleOutResponse(status=False, vehicleOut=None)
+            
+            vehicleOut = VehicleOut(
+                reg_num= vehicle.reg_num,
+                capacity= vehicle.capacity,
+                average_speed= vehicle.average_speed, 
+                freight_km= vehicle.freight_km, 
+                lat= vehicle.lat, 
+                lng= vehicle.lng,
+                createdAt= vehicle.createdAt,
+                is_active=True
+            )
+            return VehicleOutResponse(status=True, vehicleOut=vehicleOut)
+        
+        except SQLAlchemyError as e:
+            print(e)
+            return  VehicleOutResponse(status=False, vehicleOut=None)       
+    
 

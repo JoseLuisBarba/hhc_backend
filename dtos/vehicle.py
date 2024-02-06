@@ -29,3 +29,17 @@ class VehicleOutResponse(BaseModel):
 class VehiclesResponse(BaseModel):
     status: bool
     vehiclesOut: List[VehicleOut]
+
+class VehicleId(BaseModel):
+    id: str
+
+
+class VehicleUpdate(BaseModel):
+    reg_num: str = Field(..., description="Vehicle's plate")
+    capacity: int = Field(..., description="Vehicle's capacity")
+    average_speed: float = Field(..., description="Vehicle's avg speed")
+    freight_km: float = Field(..., description="Vehicle's freight per km")
+    lat: float = Field(..., description="Vehicle's latitude")
+    lng: float = Field(..., description="Vehicle's longitude")
+    is_active: bool = Field(..., description="Vehicle's viable")
+
