@@ -28,8 +28,8 @@ async def login(formData: OAuth2PasswordRequestForm= Depends()) -> Any:
                     detail="Incorrect identifier or password"
                 )
             return {
-                "access_token": createAccessToken(user.dni),
-                "refresh_token": createRefreshToken(user.dni),
+                "access_token": createAccessToken(user.userOut.dni),
+                "refresh_token": createRefreshToken(user.userOut.dni),
             }
 
 
@@ -55,6 +55,6 @@ async def refreshToken(refres_token: str = Body(...)):
                     detail="Invalid token",
                 )
             return {
-                "access_token": createAccessToken(user.dni),
-                "refresh_token": createRefreshToken(user.dni),
+                "access_token": createAccessToken(user.userDetails.dni),
+                "refresh_token": createRefreshToken(user.userDetails.dni),
             }
