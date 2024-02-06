@@ -61,9 +61,12 @@ class VehicleService:
     async def getAllVehicles(self) ->  VehiclesResponse:
         try:
             vehicles = await getAllActiveVehicles(self.dbSession)
+
             if not vehicles:
-                return VehiclesResponse(status=False, vehiclesOut=None)
+                return VehiclesResponse(status=False, vehiclesOut=[])
+            
             vehiclesResponse: List[VehicleOut] = []
+
             for vehicle in vehicles:
                 vehiclesResponse.append(VehicleOut(
                     reg_num= vehicle.reg_num, 
@@ -76,12 +79,12 @@ class VehicleService:
                     createdAt= vehicle.createdAt
                 ))
 
-            VehiclesResponse(status=True, vehiclesOut=vehiclesResponse)
+            return VehiclesResponse(status=True, vehiclesOut=vehiclesResponse)
 
         
         except SQLAlchemyError as e:
             print(e)
-            return  VehiclesResponse(status=False, vehiclesOut=None)
+            return  VehiclesResponse(status=False, vehiclesOut=[])
 
 
 
