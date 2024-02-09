@@ -64,7 +64,7 @@ async def getVehicleById(id: str, user: User = Depends(getCurrentUser)):
 
 
 
-@vehicleRouter.put('/incidence/{id}/update/', summary="Update vehicle by id", response_model= VehicleOutResponse)
+@vehicleRouter.put('/update/{id}/', summary="Update vehicle by id", response_model= VehicleOutResponse)
 async def updateVehicleById(id: str, data: VehicleUpdate, user: User = Depends(getCurrentUser)):
     async with async_session() as session:
         async with session.begin():

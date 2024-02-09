@@ -5,6 +5,7 @@ from routers import patient
 from routers import vehicle
 from routers import schedule
 from routers import caregiver
+from routers import packaging
 
 router = APIRouter()
 
@@ -14,6 +15,7 @@ router.include_router(vehicle.vehicleRouter, prefix='/vehicles', tags=["vehicles
 router.include_router(patient.patientRouter, prefix='/patient', tags=["patient"])
 router.include_router(caregiver.caregiverRouter, prefix='/caregiver', tags=["caregiver"])
 router.include_router(schedule.scheduleRouter, prefix='/schedule', tags=["schedule"])
+router.include_router(packaging.packagingRouter, prefix='/packaging', tags=["packaging"])
 
 # router.include_router(users.userRouter, prefix='/users', tags=["users"])
 # router.include_router(auth.authRouter, prefix='/auth', tags=["auth"])

@@ -3,7 +3,7 @@ from fastapi import Depends
 from models.orm import User
 from services.authService import getCurrentUser
 from services.caregiverService import CaregiverService
-from dtos.caregiver import CaregiverCreate, CaregiverCreatedResponse, CaregiversResponse
+from dtos.caregiver import CaregiverCreate, CaregiverUpdate, CaregiverCreatedResponse, CaregiversResponse, CaregiverOutResponse
 from db.mysql import async_session
 from sqlalchemy.exc import IntegrityError
 
@@ -32,7 +32,7 @@ async def createVehicle(data: CaregiverCreate, user: User = Depends(getCurrentUs
 
 
 
-@caregiverRouter.get('/availables/', summary="Get all Caregivers schedules", response_model=CaregiversResponse)
+@caregiverRouter.get('/availables/', summary="Get all Caregivers.", response_model=CaregiversResponse)
 async def getAllActiveVehicles(user: User = Depends(getCurrentUser)):
     async with async_session() as session:
         async with session.begin():
@@ -48,17 +48,32 @@ async def getAllActiveVehicles(user: User = Depends(getCurrentUser)):
             
             
 
-# @scheduleRouter.get('/{id}', summary="Get schedule by Id", response_model=ScheduleOutResponse)
-# async def getScheduleById(id: int, user: User = Depends(getCurrentUser)):
-#     async with async_session() as session:
-#         async with session.begin():
-#             try:
-#                 if not user:
-#                     raise HTTPException(
-#                         status_code=status.HTTP_403_FORBIDDEN,
-#                         detail="Invalid token",
-#                     )
-#                 return await ScheduleService(session).getScheduleById(id)
-#             except IntegrityError:
-#                 return  ScheduleOutResponse(status=False, details='error in getting schedule', scheduleOut=None)
+@caregiverRouter.get('/{id}', summary="Get caregiver by Id.", response_model=CaregiverOutResponse)
+async def getCaregiverById(id: str, user: User = Depends(getCurrentUser)):
+    async with async_session() as session:
+        async with session.begin():
+            try:
+                if not user:
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Invalid token",
+                    )
+                return await CaregiverService(session).getCaregiverById(id)
+            except Exception as e:
+                return  CaregiverOutResponse(status=False, details=f'{e}', caregiverOut=None)
+            
 
+
+@caregiverRouter.put('/update/{id}', summary="Update caregiver by Id.", response_model=CaregiverOutResponse)
+async def updateCaregiverById(id: str, data: CaregiverUpdate, user: User = Depends(getCurrentUser)):
+    async with async_session() as session:
+        async with session.begin():
+            try:
+                if not user:
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Invalid token",
+                    )
+                return await CaregiverService(session).updateCaregiverById(id, data)
+            except Exception as e:
+                return  CaregiverOutResponse(status=False, details=f'{e}', caregiverOut=None)

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, Field , EmailStr
 from datetime import datetime
 from datetime import time
@@ -10,16 +10,17 @@ class CaregiverCreate(BaseModel):
     skill: float = Field(..., description="Caregiver Demand skill")
     schedule_id: int = Field(..., description="Caregiver schedule id")
 
+class CaregiverUpdate(BaseModel):
+    skill: float = Field(..., description="New caregiver Demand skill")
+    schedule_id: int = Field(..., description="New caregiver schedule id")
+    is_active: bool = Field(..., description="Changes caregiver activity")
+
+
 class CaregiverCreated(BaseModel):
     dni:str 
     skill: float 
     schedule_id: int 
     createdAt: datetime
-
-class CaregiverCreatedResponse(BaseModel):
-    status: bool
-    details: str
-    caregiverOut: CaregiverCreated
 
 class CaregiverOut(BaseModel):
     dni: str
@@ -31,17 +32,22 @@ class CaregiverOut(BaseModel):
     is_active: bool
     phone: str
     birthdate: date
-    createdAt: datetime
-    
+    createdAt: datetime    
+
+
+class CaregiverCreatedResponse(BaseModel):
+    status: bool
+    details: str
+    caregiverOut: Optional[CaregiverCreated]
 
 
 class CaregiverOutResponse(BaseModel):
     status: bool
     details: str
-    caregiverOut: CaregiverOut
+    caregiverOut: Optional[CaregiverOut]
 
 
 class CaregiversResponse(BaseModel):
     status: bool
     details: str
-    caregiversOut: List[CaregiverOut]
+    caregiversOut: Optional[List[CaregiverOut]]

@@ -27,8 +27,9 @@ app.include_router(router, prefix = settings.API_V1_STR)
 async def startup():
     # create db tables
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
+        #await conn.run_sync(Base.metadata.drop_all)
+        #await conn.run_sync(Base.metadata.create_all)
+        pass
 
 if __name__ == "__main__":
     uvicorn.run(app, host=settings.HOST, port=settings.PORT)
