@@ -13,7 +13,7 @@ caregiverRouter = APIRouter()
 
 
 @caregiverRouter.post('/createCaregiver', summary="Create new caregiver", response_model=CaregiverCreatedResponse)
-async def createVehicle(data: CaregiverCreate, user: User = Depends(getCurrentUser)):
+async def createCaregiver(data: CaregiverCreate, user: User = Depends(getCurrentUser)):
     #error in dni relation
     async with async_session() as session:
         async with session.begin():
